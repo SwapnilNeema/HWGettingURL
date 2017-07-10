@@ -38,6 +38,8 @@ object Prac2 extends App{
     val m1 = patternJ.findAllIn(lines1).toList
     val patternP = "Traceback[^\\n]+\\s(\\s*File.*\\s+(.*\\s)?((ERROR|error|IndexError):.*\\s)*)+".r
     val m2 = patternP.findAllIn(lines1).toList
+    val m3 = patternJTS.findAllIn(lines1).toList
+    val writer3 = new PrintWriter("/Users/sneema/Documents/detailedLogs/"+ applicationId +"/"+ appAttemptId+"/javaStackTraceTimeStamp.txt")
     val writer1 = new PrintWriter("/Users/sneema/Documents/detailedLogs/"+ applicationId +"/"+ appAttemptId+"/javaStackTrace.txt")
     val writer2 = new PrintWriter("/Users/sneema/Documents/detailedLogs/"+ applicationId +"/"+ appAttemptId+"/pythonStackTrace.txt")
 
@@ -63,8 +65,30 @@ object Prac2 extends App{
         }
         //writer.close()}
     }
+   println("size of m3 = "+m3.size)
+    println("required = "+m3.mkString("\n").split("\n")(0))
+    var countJTS = 1
+    m3.foreach{
+      e =>
+        {
+          println("**********JAVASTACKTRACETIMESTAMP**********",e)
+          val message = e.split("\n")(0)
+          val arr = e.split("\n")
+          val newarr = arr.drop(1)
+          val stackT = newarr.mkString("")
+          //val stackT = e
+
+          writeIntoDB(message,stackT,countJTS)
+          //val writer = new PrintWriter("/Users/sneema/Documents/detailedLogs/"+ applicationId +"/"+ appAttemptId+"/javaStackTraceTimeStamp.txt")
+
+         /* writer3.write(countJTS.toString+"\n")
+          writer3.write(e)*/
+          countJTS=countJTS+1
+        }
+    }
     writer1.close()
     writer2.close()
+    writer3.close()
   }
 
 }
