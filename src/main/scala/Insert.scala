@@ -52,6 +52,13 @@ import play.api.libs.json.JsObject
       MongoFactoryAppName.collection.save(obj)
     }
   }
+  def InsertErrorDetails(jsobj: JsObject): Unit ={
+    val newObj = MongoDBObject(jsobj.toString())
+    saveObject(newObj)
+    def saveObject(obj: DBObject): Unit ={
+      MongoFactoryErrorDetails.collection.save(obj)
+    }
+  }
 
 
 }
